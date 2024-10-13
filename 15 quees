@@ -1,0 +1,380 @@
+
+
+
+
+
+
+
+
+
+
+
+PANDAS 
+15 QUESTIONS
+(BASIC)
+
+LEETCODE
+
+ 
+
+
+PROBLEM LINK: https://leetcode.com/problems/create-a-dataframe-from-list/description/?envType=study-plan-v2&envId=introduction-to-pandas&lang=pythondata
+
+PROBLEM DESCRIPTION:
+In this problem, we are tasked with constructing a DataFrame using the pandas library in Python.We are given a 2-dimensional list student_data where each sub-list contains two elements: the first element represents a student's ID, and the second is the student's age. The challenge is to convert this 2D list into a DataFrame with two columns. Those columns are to be named student_id and age.
+INTUITION:
+The intuitive approach for solving this problem is to leverage the DataFrame constructor method provided by pandas. This method can accept various forms of input data including lists, dictionaries, and other DataFrames. When given a 2D list, each sub-list is interpreted as a row in the DataFrame.
+In order to ensure that the columns of the DataFrame are correctly labeled, we specify the columns parameter when calling the DataFrame constructor, passing in a list with the desired column names: ['student_id', 'age'].
+
+import pandas as pd
+def createDataframe(student_data: list[list[int]]) -> pd.DataFrame:
+  return pd.DataFrame(student_data, columns=['student_id', 'age'])
+
+
+TIME COMPLEXITY:
+The time complexity of creating a dataframe using pandas.DataFrame is generally O(n) where n is the total number of elements in the input list student_data. Each element (a sub-list in this case) is inserted into the DataFrame during creation.
+
+SPACE COMPLEXITY:
+The space complexity is also O(n) since the DataFrame stores all elements of the input list. Each sub-list corresponds to a row in the DataFrame, and each element within a sub-list corresponds to a cell in the DataFrame.
+ 
+
+
+PROBLEM LINK: https://leetcode.com/problems/get-the-size-of-a-dataframe/description/?envType=study-plan-v2&envId=introduction-to-pandas&lang=pythondata
+
+PROBLEM DESCRIPTION:
+This problem involves working with a pandas DataFrame representing information about players. The DataFrame is given as an input and contains various columns, such as player_id, name, age, position, and possibly others that are not fully detailed (... suggests there could be additional columns). Our task is to write a function that calculates two simple metrics: the number of rows and the number of columns in the DataFrame.
+INTUITION:
+The intuition behind the solution is to use the inbuilt properties of pandas DataFrames. Every DataFrame in pandas has a .shape attribute, which returns a tuple containing the number of rows and columns (in that order). 
+
+
+import pandas as pd
+
+def getDataframeSize(players: pd.DataFrame) -> List[int]:
+    
+   return list(players.shape)
+
+
+TIME COMPLEXITY:
+The time complexity of getDataframeSize function is O(1).The function accesses the .shape attribute of a pandas DataFrame, which is an operation that runs in constant time regardless of the size of the DataFrame since it only returns the dimensions of the DataFrame that are already stored as metadata.
+
+SPACE COMPLEXITY:
+The space complexity of the getDataframeSize function is also O(1).The function returns the dimensions of the DataFrame as a list, which always contains two integers regardless of the size of the DataFrame. Therefore, the space used does not scale with the input size, making it constant space complexity.
+ 
+                                                                                                                                                                                                                                                                                                      
+
+PROBLEM LINK: https://leetcode.com/problems/display-the-first-three-rows/description/
+
+PROBLEM DESCRIPTION:
+The task is to create a solution that will display the first 3 rows of this DataFrame. This means we need to write a function that takes this DataFrame as an input and returns a new DataFrame composed only of the first three entries from the original. 
+INTUITION:
+ One of the basic methods available in Pandas for DataFrame objects is the .head() method.
+The .head() method is used to retrieve the top n rows from a DataFrame
+
+import pandas as pd
+
+def selectFirstRows(employees: pd.DataFrame) -> pd.DataFrame:
+    return employees.head(3)
+    
+
+TIME COMPLEXITY:
+The time complexity of the selectFirstRows function is O(1) because retrieving the first few rows of a dataframe is a constant time operation. It does not depend on the size of the dataframe, as the number of rows to retrieve is always fixed at 3.
+
+SPACE COMPLEXITY:
+The space complexity of the function is also O(1) since it creates a new dataframe containing only a constant number of rows, regardless of the input dataframe’s size.
+ 
+                                                                                                               
+
+
+PROBLEM LINK: https://leetcode.com/problems/select-data/description/
+
+PROBLEM DESCRIPTION:
+The task is to query this DataFrame and extract information specifically for the student with the ID 101. The output should be a new DataFrame containing only the name and age of that particular student, discarding other columns and rows that do not match the specified student ID.
+INTUITION:
+The solution involves two key steps:
+1.	Filtering rows: We need to filter the rows where the student_id is equal to 101. This can be done using the .loc[] accessor in pandas, which allows for both row and column selection.
+2.	Selecting specific columns: After filtering the rows, we only want the name and age columns, which we can also achieve through the .loc[] method by passing the column names as a list.
+
+import pandas as pd
+def selectData(students: pd.DataFrame) -> pd.DataFrame:
+    return students.loc[students['student_id'] == 101, ['name','age']]
+    
+TIME COMPLEXITY:
+Row filtering: Filtering rows based on the condition students['student_id'] == 101 requires scanning the entire student_id column. This operation takes O(n) time, where n is the number of rows in the DataFrame.
+Column selection: After filtering, selecting the columns ['name', 'age'] is done in constant time because pandas handles this efficiently via column references, which is O(1).
+Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+
+SPACE COMPLEXITY:
+Row filtering: A new DataFrame is created to store the filtered data. In the worst case, if all rows match the condition (student_id == 101), the space required will be proportional to the number of rows and columns selected.Memory overhead: The memory overhead depends on how pandas handles internal optimizations, but at worst, the entire subset of filtered data is stored.Overall space complexity: O(m), where m is the number of rows that match the condition (student_id == 101), and only the name and age columns are stored.
+
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/create-a-new-column/
+
+PROBLEM DESCRIPTION:
+The task is to write a piece of code that adds a new column to the employees DataFrame. This new column, named bonus, is supposed to contain the doubled values of the salary column for each employee. It is essentially a bonus calculation where each employee's bonus is twice their current salary.
+INTUITION:
+The problem requires updating the existing DataFrame by adding a new column (bonus). For each employee, the value of the bonus column should be calculated by multiplying their salary by 2. This operation can be easily handled using pandas, as it supports element-wise operations on columns.
+
+
+import pandas as pd
+def createBonusColumn(employees: pd.DataFrame) -> pd.DataFrame:
+    employees['bonus'] = employees['salary'] * 2
+    return employees
+
+
+TIME COMPLEXITY:
+Column-wise operation: Multiplying all elements of the salary column by 2 requires iterating through all the rows. Since pandas operations are vectorized, this is done efficiently in O(n) time, where n is the number of rows in the DataFrame.
+Adding a new column: Adding the new bonus column to the DataFrame is also an O(n) operation.
+Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+
+SPACE COMPLEXITY:
+New column storage: A new bonus column is created in the DataFrame. This column requires additional space proportional to the number of rows in the DataFrame.Memory overhead: The space complexity is primarily driven by the creation of the bonus column, which takes up additional space.Overall space complexity: O(n), where n is the number of rows in the DataFrame (one additional column is stored).
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/drop-duplicate-rows/description/
+
+PROBLEM DESCRIPTION:
+The problem presents a DataFrame named customers with columns customer_id, name, and email. We are informed that there are duplicate records based on the email column. The task is to remove these duplicate rows, but crucially, we must keep only the first occurrence of each email. The DataFrame may contain unique customer_id values and name values, but some emails are associated with more than one customer. The goal is to return a DataFrame where all email addresses appear only once, preserving the record of the first customer who had that email.
+INTUITION:
+The problem asks us to remove duplicate emails while retaining the record of the first customer associated with each unique email address. pandas provides a built-in function, drop_duplicates(), which allows us to drop duplicate rows based on specific columns. By specifying the subset parameter as the email column, we can drop duplicates based on email addresses. Setting the keep='first' ensures that the first occurrence of each email is kept, and all subsequent duplicate rows are removed.
+
+import pandas as pd
+def dropDuplicateEmails(customers: pd.DataFrame) -> pd.DataFrame:
+    customers.drop_duplicates(subset='email', keep='first', inplace=True)
+    return customers
+
+TIME COMPLEXITY:
+Identifying duplicates: The drop_duplicates() method needs to scan through the email column to identify duplicates. This takes O(n) time, where n is the number of rows in the DataFrame.Dropping rows: After identifying duplicates, the function drops the unnecessary rows, which also takes O(n) time in the worst case.Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+SPACE COMPLEXITY:
+In-place operation: Since the operation is done in place (inplace=True), no additional DataFrame is created. The only extra memory used is for temporary storage needed to perform the operation, which is O(1).Memory overhead: The space complexity is dominated by storing the modified DataFrame.Overall space complexity: O(1) if we are considering in-place operations (excluding temporary memory requirements). If inplace=False, the space complexity would be O(n) due to the creation of a new DataFrame.
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/drop-missing-data/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame students that contains student records, including at least a name column. The task is to remove rows where the name field is missing (i.e., contains NaN values) and return the cleaned DataFrame.
+INTUITION:
+The problem involves removing rows with missing values in the name column. pandas provides the dropna() function, which allows us to remove rows with missing data based on specific columns. By specifying the subset parameter as ['name'], we ensure that only rows where the name column is NaN are dropped, and all other rows are kept.
+
+import pandas as pd
+def dropMissingData(students: pd.DataFrame) -> pd.DataFrame:
+  students.dropna(subset=['name'], inplace=True)
+  return students
+
+TIME COMPLEXITY:
+Identifying missing values: The dropna() function needs to scan the name column to identify rows with NaN values. This takes O(n) time, where n is the number of rows in the DataFrame.
+Dropping rows: After identifying the rows with missing values, the function removes those rows, which also takes O(n) time in the worst case.
+Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+
+SPACE COMPLEXITY:
+In-place operation: Since the operation is done in place (inplace=True), no additional DataFrame is created. The only extra memory used is for temporary storage needed to perform the operation, which is O(1).
+Memory overhead: The space complexity is dominated by the modified DataFrame's storage.
+Overall space complexity: O(1) if we are considering in-place operations. If inplace=False, the space complexity would be O(n) due to the creation of a new DataFrame.
+
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/modify-columns/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame employees that contains information about employees, including a salary column. The task is to modify the salary column by doubling each employee's salary and return the updated DataFrame.
+
+INTUITION:
+The solution involves performing an element-wise operation on the salary column, multiplying each value by 2. pandas makes this process efficient because it supports vectorized operations on DataFrame columns.
+
+import pandas as pd
+
+def modifySalaryColumn(employees: pd.DataFrame) -> pd.DataFrame:
+  employees['salary'] = employees['salary'] * 2
+  return employees
+
+TIME COMPLEXITY:
+Column-wise operation: The multiplication of each element in the salary column by 2 is a vectorized operation that takes O(n) time, where n is the number of rows in the DataFrame.
+Overall time complexity: O(n), where n is the number of rows.
+
+SPACE COMPLEXITY:
+In-place modification: Since we're modifying the salary column in place, no extra DataFrame is created. pandas will handle this efficiently in memory.
+Overall space complexity: O(1) if we are modifying the column in place, with some temporary memory usage for the operation.
+If you want to return a new DataFrame with the updated salary instead of modifying the existing 
+one, the space complexity would be O(n), where n is the number of rows.
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/rename-columns/description/
+PROBLEM DESCRIPTION:
+The task is to rename these columns to more descriptive names:
+id -> student_id
+first -> first_name
+last -> last_name
+age -> age_in_years
+INTUITION:
+The rename() function in pandas allows renaming columns by passing a dictionary that maps old column names to new ones. The task involves using this function to rename the columns of the students DataFrame to more descriptive names and returning the updated DataFrame.
+
+import pandas as pd
+def renameColumns(students: pd.DataFrame) -> pd.DataFrame:
+   return students.rename(
+      columns={
+          "id": "student_id",
+          "first": "first_name",
+          "last": "last_name",
+          "age": "age_in_years",
+      }
+  )
+TIME COMPLEXITY:
+Renaming columns: The rename() method operates on the column headers, which is an O(k) operation, where k is the number of columns. Since we are only renaming a fixed number of columns, this operation is very efficient.Overall time complexity: O(k), where k is the number of columns
+SPACE COMPLEXITY:
+No in-place operation: The rename() function creates a new DataFrame if inplace=False (the default), so the space complexity is O(m), where m is the number of rows in the DataFrame.If you want to modify the DataFrame in place, you can pass the inplace=True argument to avoid creating a new DataFrame, which would reduce the space complexity to O(1).
+
+
+PROBLEM LINK: https://leetcode.com/problems/change-data-type/description/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame students that contains student information, including a column grade. The task is to change the data type of the grade column to an integer (int) and return the updated DataFrame.
+INTUITION:
+pandas provides the astype() method, which allows you to change the data type of one or more columns. In this case, you want to specifically convert the grade column to an integer data type. By passing a dictionary to astype(), you can specify which columns to change and their new data types.
+
+import pandas as pd
+def changeDatatype(students: pd.DataFrame) -> pd.DataFrame:
+  return students.astype({'grade': int})
+
+TIME COMPLEXITY:
+Changing data type: The astype() method needs to go through each element in the grade column and cast it to the specified data type (int), which takes O(n) time, where n is the number of rows in the DataFrame.
+Overall time complexity: O(n), where n is the number of rows.
+
+SPACE COMPLEXITY:
+New DataFrame creation: The astype() method creates a new DataFrame if inplace=False (the default). This will result in O(n) space complexity, as the entire DataFrame is copied.
+Overall space complexity: O(n), where n is the number of rows.
+
+NOTE :
+If you want to avoid creating a new DataFrame and modify the original one in place, you can assign the conversion directly to the grade column like this:
+
+students['grade'] = students['grade'].astype(int)
+This would reduce the space complexity to O(1) since no additional DataFrame is created.
+
+
+PROBLEM LINK: https://leetcode.com/problems/fill-missing-data/description/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame products that contains product information, including a quantity column. Some values in the quantity column may be missing (NaN). The task is to fill these missing values with 0 and return the updated DataFrame.
+
+INTUITION:
+When handling missing data, pandas provides the fillna() method, which allows you to replace NaN values with a specified value. In this case, we want to replace any missing values in the quantity column with 0. By setting inplace=True, we can update the DataFrame in place.
+
+import pandas as pd
+def fillMissingValues(products: pd.DataFrame) -> pd.DataFrame:
+  products['quantity'].fillna(0, inplace=True)
+  return products
+
+
+TIME COMPLEXITY:
+Filling missing values: The fillna() method needs to scan the quantity column and replace any NaN values with 0. This operation takes O(n) time, where n is the number of rows in the DataFrame.Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+
+SPACE COMPLEXITY:
+In-place operation: Since we are using the inplace=True parameter, the operation modifies the DataFrame in place without creating a new DataFrame. Therefore, the space complexity is O(1).If inplace=False is used (the default), the space complexity would be O(n), as a new DataFrame would be created with the modified data.
+
+
+
+
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/reshape-data-concatenate/description/
+
+PROBLEM DESCRIPTION:
+Given two pandas DataFrames, df1 and df2, which represent two tables of data. The task is to concatenate these two DataFrames along the rows (vertically), so that the rows from df2 are appended to df1. The resulting DataFrame should contain all rows from both tables, stacked on top of each other.
+INTUITION:
+pandas provides the concat() function, which allows for the concatenation of two or more DataFrames along a specified axis. To concatenate the DataFrames row-wise, we need to specify axis=0 (the default). This will append the rows of df2 below df1.
+
+import pandas as pd
+def concatenateTables(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+  return pd.concat([df1, df2], axis=0)
+
+TIME COMPLEXITY:
+Concatenating DataFrames: The concat() function takes O(n + m) time, where n is the number of rows in df1 and m is the number of rows in df2. This is because all rows from both DataFrames need to be copied to the resulting DataFrame.
+Overall time complexity: O(n + m), where n is the number of rows in df1 and m is the number of rows in df2.
+
+SPACE COMPLEXITY:
+
+New DataFrame creation: Since concatenation creates a new DataFrame that contains all the rows from both df1 and df2, the space complexity is proportional to the combined size of the DataFrames.
+Overall space complexity: O(n + m), where n and m are the number of rows in df1 and df2, respectively.
+
+
+
+
+
+PROBLEM LINK: https://leetcode.com/problems/reshape-data-pivot/description/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame weather that contains weather data with columns like month, city, and temperature. The task is to create a pivot table where:
+•	month is the index (rows),
+•	city is the columns,
+•	The values in the table are the temperature readings for each city in each month.
+INTUITION:
+The pivot() function in pandas reshapes the DataFrame by reorganizing the data into a new structure where one column becomes the index, another column becomes the columns, and the remaining column provides the values. Unlike pivot_table(), which can apply aggregation functions, pivot() assumes there is only one value per combination of the specified index and columns (so no aggregation is needed).
+
+import pandas as pd
+def pivotTable(weather: pd.DataFrame) -> pd.DataFrame:
+   return weather.pivot(index="month", 
+                         columns="city", 
+                         values="temperature")
+
+TIME COMPLEXITY:
+Pivot operation: The pivot() function involves rearranging the data and creating a new DataFrame based on the unique values of month and city. This operation takes O(n) time, where n is the number of rows in the DataFrame.Overall time complexity: O(n), where n is the number of rows in the DataFrame.
+SPACE COMPLEXITY:
+New DataFrame creation: The pivot() function creates a new DataFrame, and the space complexity depends on the number of unique combinations of month and city.Overall space complexity: O(u * v), where u is the number of unique months and v is the number of unique cities.
+NOTE:
+If there are multiple rows with the same month and city, pivot() will raise a ValueError. In such cases, you should use pivot_table() with an aggregation function (e.g., aggfunc='mean' or aggfunc='max').
+
+
+PROBLEM LINK: https://leetcode.com/problems/reshape-data-melt/description/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame report that contains sales data for different products over four quarters (quarter_1, quarter_2, quarter_3, and quarter_4). The task is to "melt" this DataFrame, converting it from a wide format (where each quarter has its own column) to a long format (where each row represents a product, quarter, and sales value).
+INTUITION:
+The melt() function in pandas reshapes a DataFrame from wide format to long format. In this case, you want to:
+1.	Keep the product column as an identifier.
+2.	Combine the quarter_1, quarter_2, quarter_3, and quarter_4 columns into a single column called quarter.
+3.	Move the sales values from each quarter into a new sales column.
+
+import pandas as pd
+def meltTable(report: pd.DataFrame) -> pd.DataFrame:
+    
+    return pd.melt(report, 
+                   id_vars=["product"], 
+                   value_vars=["quarter_1", "quarter_2", 
+                               "quarter_3", "quarter_4"],
+                   var_name="quarter", 
+                   value_name='sales')
+TIME COMPLEXITY:
+Melting operation: The melt() function processes each value from the quarter_1, quarter_2, quarter_3, and quarter_4 columns and transforms them into rows. This operation takes O(n * m) time, where n is the number of rows and m is the number of columns being melted (in this case, 4).Overall time complexity: O(n * m), where n is the number of rows and m is the number of columns to be unpivoted.
+
+SPACE COMPLEXITY:
+New DataFrame creation: The melt() function creates a new DataFrame, where each of the m columns is converted into rows. The space complexity depends on the number of rows in the original DataFrame and the number of columns being melted.Overall space complexity: O(n * m), where n is the number of rows and m is the number of columns being melted.
+
+
+PROBLEM LINK: https://leetcode.com/problems/method-chaining/description/
+
+PROBLEM DESCRIPTION:
+Given a pandas DataFrame animals that contains information about different animals, including their name and weight. The task is to identify and return the names of animals that weigh more than 100 units, sorted by weight in descending order.
+INTUITION:
+To solve this problem, we need to:
+Filter the DataFrame to include only animals with a weight greater than 100 units.
+Sort the filtered DataFrame by the weight column in descending order.
+Select only the name column to return the names of the heavy animals.
+We can use pandas' loc[] method for filtering, sort_values() for sorting, and bracket notation to select the desired column.
+
+import pandas as pd
+def findHeavyAnimals(animals: pd.DataFrame) -> pd.DataFrame:
+    return animals.loc[animals["weight"]>100].sort_values(by="weight",ascending=False)[["name"]]
+
+TIME COMPLEXITY:
+Filtering operation: The loc[] method scans the entire weight column, which takes O(n) time, where n is the number of rows in the DataFrame.
+Sorting operation: The sort_values() method sorts the filtered rows, which takes O(k log k), where k is the number of rows that satisfy the weight condition.
+Selecting a column: Selecting the name column takes O(1) time.
+Overall time complexity: O(n + k log k), where n is the total number of rows and k is the number of rows that meet the weight > 100 condition.
+
+SPACE COMPLEXITY:
+Filtering and sorting: Both filtering and sorting create new DataFrames, so the space complexity depends on the number of rows being filtered and sorted.Overall space complexity: O(k), where k is the number of rows that satisfy the weight condition.
